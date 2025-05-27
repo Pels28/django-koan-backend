@@ -31,7 +31,9 @@ SECRET_KEY = getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv("IS_DEVELOPMENT", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'django-koan-backend.onrender.com'
+]
 
 
 # Application definition
@@ -71,7 +73,7 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     "https://koan-acquisition.vercel.app",
-    'https://django-koan-backend.onrender.com'
+    # 'https://django-koan-backend.onrender.com'
 ] 
 
 AUTH_USER_MODEL = "api.User"
