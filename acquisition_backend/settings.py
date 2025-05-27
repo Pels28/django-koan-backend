@@ -70,7 +70,8 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    "https://koan-acquisition.vercel.app"
+    "https://koan-acquisition.vercel.app",
+    'https://django-koan-backend.onrender.com'
 ] 
 
 AUTH_USER_MODEL = "api.User"
@@ -118,6 +119,17 @@ DATABASES = {
         'PORT': getenv('PORT'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE':  'django.db.backends.postgresql',
+#         'NAME': getenv('DATABASE_NAME'),
+#         'USER': getenv('DATABASE_USER'),
+#         'PASSWORD': getenv('DATABASE_PASSWORD'),
+#         'HOST': getenv('DATABASE_HOST'),
+#         'PORT': getenv('DATABASE_PORT') 
+#     }
+# }
 
 
 # Password validation
