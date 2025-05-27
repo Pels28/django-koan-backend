@@ -32,7 +32,8 @@ SECRET_KEY = getenv("SECRET_KEY")
 DEBUG = getenv("IS_DEVELOPMENT", True)
 
 ALLOWED_HOSTS = [
-    'django-koan-backend.onrender.com'
+    'django-koan-backend.onrender.com',
+    '127.0.0.1'
 ]
 
 
@@ -49,7 +50,8 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     'corsheaders',
-    'rest_framework_simplejwt.token_blacklist'
+    'rest_framework_simplejwt.token_blacklist',
+    'django_select2',
 ]
 
 MIDDLEWARE = [
@@ -209,6 +211,10 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/user-media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -216,44 +222,50 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 JAZZMIN_SETTINGS = {
-    "site_title": "KOAN PETROLUEM ADMIN DASHBOARD ",
-    "welcome_sign": "Hey there...welcome back",
-    "site_header": "KOAN PETROLUEM ADMIN DASHBOARD ",
+    "site_title": "KOAN PETROLEUM ADMIN",  # Fixed typo
+    "welcome_sign": "KOAN PETROLEUM ADMIN DASHBOARD",
+    "site_header": "KOAN PETROLEUM ADMIN",
     "site_brand": "ADMIN PANEL",
     "copyright": "www.koan-petroleum.com",
+    "show_ui_builder": True,  # Allows live theme adjustments
+    "custom_css": "css/admin_custom.css",  # For our custom fixes
+    "related_modal_active": True,  # Better relationship modals
+    "horizontal_filter_classes": ["collapse", "wide"],
+    "changeform_format": "horizontal_tabs",
+      "custom_js": [
+        'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js',
+    ],
 }
-
 
 JAZZMIN_UI_TWEAKS = {
     "navbar_small_text": False,
     "footer_small_text": False,
     "body_small_text": False,
     "brand_small_text": False,
-    "brand_colour": "navbar-success",
-    "accent": "accent-teal",
-    "navbar": "navbar-dark",
-    "no_navbar_border": False,
-    "navbar_fixed": False,
+    "brand_colour": "navbar-primary",
+    "accent": "accent-primary",
+    "navbar": "navbar-white navbar-light",  # Professional light header
+    "no_navbar_border": True,
+    "navbar_fixed": True,  # Fixed positioning
     "layout_boxed": False,
     "footer_fixed": False,
-    "sidebar_fixed": False,
-    "sidebar": "sidebar-dark-info",
+    "sidebar_fixed": True,  # Fixed sidebar
+    "sidebar": "sidebar-dark-primary",  # Dark sidebar for contrast
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": False,
-    "sidebar_nav_compact_style": False,
+    "sidebar_nav_compact_style": True,  # Cleaner navigation
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "cyborg",
+    "theme": "flatly",  # Professional theme
     "dark_mode_theme": None,
     "button_classes": {
-        "primary": "btn-primary",
-        "secondary": "btn-secondary",
-        "info": "btn-info",
-        "warning": "btn-warning",
-        "danger": "btn-danger",
-        "success": "btn-success",
+        "primary": "btn btn-primary",
+        "secondary": "btn btn-secondary",
+        "info": "btn btn-info",
+        "warning": "btn btn-warning",
+        "danger": "btn btn-danger",
+        "success": "btn btn-success",
     },
 }
-
 

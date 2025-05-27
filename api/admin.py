@@ -7,6 +7,7 @@ from .models import User, Profile
 # Register your models here.
 
 class UserAdmin(BaseUserAdmin):
+    filter_vertical = ("groups", "user_permissions")
     ordering = ["email"]
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
@@ -14,7 +15,7 @@ class UserAdmin(BaseUserAdmin):
     list_editable = ["is_active"]
     list_display = ["email", "first_name", "last_name", "is_staff", "is_active"]
     list_display_links = ["email"]
-    list_filter = ["email", "first_name", "last_name", "is_staff", "is_active"]
+    list_filter = ["email",  "is_staff", "is_active"]
     search_fields = ["email", "first_name", "last_name"]
     fieldsets = (
         (
@@ -31,16 +32,20 @@ class UserAdmin(BaseUserAdmin):
         (
             _("Permissions and Groups"),
             {
-                "fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")
+                "fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions"),
+                    "classes": ("wide", "extrapretty",)  
             },
         ),
         (
             _("Important Dates"),
             {
-                "fields": ("last_login",)
+                "fields": ("last_login", "date_joined")  # Keep both but make them readonly
             },
         ),
     )
+    
+    readonly_fields = ("last_login", "date_joined")  # Add this line
+    # filter_horizontal = ("groups", "user_permissions")  # Keep this for better UI
     add_fieldsets = (
             (None, {
                 "classes": ("wide",),
