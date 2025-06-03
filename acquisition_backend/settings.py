@@ -237,9 +237,9 @@ JAZZMIN_SETTINGS = {
     "related_modal_active": True,  # Better relationship modals
     "horizontal_filter_classes": ["collapse", "wide"],
     "changeform_format": "horizontal_tabs",
-    #   "custom_js": [
-    #     'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js',
-    # ],
+      "custom_js": [
+        'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js',
+    ],
 }
 
 JAZZMIN_UI_TWEAKS = {
