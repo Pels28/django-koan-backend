@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Case, When, Value, IntegerField
 from .models import WorkOrder
 
 class WorkOrderAdmin(admin.ModelAdmin):
@@ -6,9 +7,23 @@ class WorkOrderAdmin(admin.ModelAdmin):
     list_filter = ('priority', 'status', 'start_date', 'completion_date')
     search_fields = ('work_order_number', 'requester', 'location', 'description', 'assigned_technician')
     readonly_fields = ('created_at', 'updated_at')
-    list_editable=("priority", "status",)
+    list_editable = ("priority", "status",)
     date_hierarchy = 'date'
-    ordering = ('-start_date',)
+    
+    # Custom ordering: High priority first, then Medium, then Low
+    # Within each priority, newest start_date first
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        qs = qs.annotate(
+            priority_order=Case(
+                When(priority='high', then=Value(0)),
+                When(priority='medium', then=Value(1)),
+                When(priority='low', then=Value(2)),
+                default=Value(3),
+                output_field=IntegerField(),
+            )
+        ).order_by('priority_order', '-start_date', '-created_at')  # Added created_at as final sort
+        return qs
     
     fieldsets = (
         ('Work Order Information', {
