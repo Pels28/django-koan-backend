@@ -1,14 +1,4 @@
-:root {
-    --primary: #4A00C3;       /* KOAN purple */
-    --primary-light: #6A30E3; /* Lighter purple */
-    --primary-dark: #3A00A3;  /* Darker purple */
-    --secondary: #00F4EF;     /* KOAN teal */
-    --secondary-light: #40FFF9; /* Brighter teal */
-    --white: #FFFFFF;
-    --light-bg: #F8F9FA;      /* Light background */
-    --card-bg: #FFFFFF;       /* Card background */
-    --text-dark: #212529;     /* Dark text */
-}
+
 
 /* Logo sizing (kept your large logo) */
 .login-logo img, .site-logo img {
@@ -17,39 +7,8 @@
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
-/* Header styling - Gradient effect */
-.main-header {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%) !important;
-    border-bottom: none !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
 
-/* Sidebar styling - Subtle gradient */
-.main-sidebar {
-    background-color: #ffffff !important; /* Pure white background */
-    border-right: 1px solid rgba(74, 0, 195, 0.1) !important; /* Subtle purple border */
-}
 
-/* Active sidebar item - Purple accent */
-.nav-sidebar > .nav-item > .nav-link.active {
-    background-color: var(--primary) !important; /* KOAN purple */
-    color: #ffffff !important; /* White text */
-    font-weight: 600;
-    border-left: 4px solid var(--primary) !important;
-    box-shadow: none !important; /* Cleaner look without shadow */
-}
-
-/* Hover effects - Subtle purple tint */
-.nav-sidebar .nav-link:hover:not(.active) {
-    background-color: rgba(74, 0, 195, 0.05) !important; /* Very light purple tint */
-    color: var(--primary) !important; /* Purple text on hover */
-}
-
-/* Sidebar text colors */
-.nav-sidebar .nav-link {
-    color: #495057 !important; /* Dark gray for normal state */
-    transition: all 0.2s ease;
-}
 
 /* Sidebar header */
 .sidebar-brand {
@@ -57,35 +16,6 @@
     border-bottom: 1px solid rgba(74, 0, 195, 0.1) !important;
 }
 
-/* Sidebar icons */
-.nav-sidebar .nav-icon {
-    color: var(--primary) !important; /* Purple icons */
-}
-/* Button styling */
-.btn-primary {
-    background-color: var(--primary) !important;
-    border-color: var(--primary) !important;
-    transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: var(--primary-dark) !important;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.btn-secondary {
-    background-color: var(--secondary) !important;
-    border-color: var(--secondary) !important;
-    color: var(--text-dark) !important;
-    transition: all 0.3s ease;
-}
-
-.btn-secondary:hover {
-    background-color: var(--secondary-light) !important;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
 
 /* Login page styling - More subtle gradient */
 .login-page {
