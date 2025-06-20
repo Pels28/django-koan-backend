@@ -227,19 +227,33 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 JAZZMIN_SETTINGS = {
-    "site_title": "KOAN PETROLEUM ADMIN",  # Fixed typo
+    "site_title": "KOAN PETROLEUM ADMIN",
     "welcome_sign": "KOAN PETROLEUM ADMIN DASHBOARD",
     "site_header": "KOAN PETROLEUM ADMIN",
     "site_brand": "ADMIN PANEL",
+    "site_logo": "img/koan-logo.jpg",  # Path to your logo (should be in static files)
+    "login_logo": "img/koan-logo.jpg",  # Login screen logo
     "copyright": "www.koan-petroleum.com",
-    "show_ui_builder": True,  # Allows live theme adjustments
-    "custom_css": "css/admin_custom.css",  # For our custom fixes
-    "related_modal_active": True,  # Better relationship modals
+    "show_ui_builder": True,
+    "custom_css": "css/admin_custom.css",
+    "related_modal_active": True,
     "horizontal_filter_classes": ["collapse", "wide"],
     "changeform_format": "horizontal_tabs",
-      "custom_js": [
+    "custom_js": [
         'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js',
     ],
+    
+    # Custom colors
+    "theme": "custom",
+    "colors": {
+        "primary": "#4A00C3",  # Purple
+        "secondary": "#00F4EF",  # Teal
+        "background": "#f8f9fa",  # Light gray background
+        "card": "#ffffff",  # White cards
+        "sidebar": "#4A00C3",  # Purple sidebar
+        "sidebar-text": "#ffffff",  # White sidebar text
+        "sidebar-hover": "#3a00a3",  # Darker purple on hover
+    },
 }
 
 JAZZMIN_UI_TWEAKS = {
@@ -249,20 +263,20 @@ JAZZMIN_UI_TWEAKS = {
     "brand_small_text": False,
     "brand_colour": "navbar-primary",
     "accent": "accent-primary",
-    "navbar": "navbar-white navbar-light",  # Professional light header
+    "navbar": "navbar-white navbar-light",
     "no_navbar_border": True,
-    "navbar_fixed": True,  # Fixed positioning
+    "navbar_fixed": True,
     "layout_boxed": False,
     "footer_fixed": False,
-    "sidebar_fixed": True,  # Fixed sidebar
-    "sidebar": "sidebar-dark-primary",  # Dark sidebar for contrast
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-primary",
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": False,
-    "sidebar_nav_compact_style": True,  # Cleaner navigation
+    "sidebar_nav_compact_style": True,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "flatly",  # Professional theme
+    "theme": "flatly",  # Using our custom theme
     "dark_mode_theme": None,
     "button_classes": {
         "primary": "btn btn-primary",
@@ -273,4 +287,3 @@ JAZZMIN_UI_TWEAKS = {
         "success": "btn btn-success",
     },
 }
-
