@@ -20,6 +20,12 @@ class LandAcquisition(models.Model):
         ('reject', 'Reject'),
     ]
     
+    REVIEW_STATUS_CHOICES = [
+        ('pending_review', 'Pending Review'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     # Section A
@@ -39,13 +45,13 @@ class LandAcquisition(models.Model):
     stationTankCapacityDiesel = models.CharField(max_length=100, blank=True, null=True)
     stationTankCapacitySuper = models.CharField(max_length=100, blank=True, null=True)
     
-    projectedVolume = models.CharField(max_length=100)
+    projectedVolume = models.CharField(max_length=100, null=True, blank=True)
     leaseYears = models.CharField(max_length=100)
     leaseRemaining = models.CharField(max_length=100)
-    loadingLocation = models.CharField(max_length=100)
-    distance = models.CharField(max_length=100)
-    decision = models.CharField(max_length=20, choices=DECISION_CHOICES)
-    reason = models.TextField()
+    loadingLocation = models.CharField(max_length=100, null=True, blank=True)
+    distance = models.CharField(max_length=100, blank=True, null=True)
+    decision = models.CharField(max_length=20, choices=DECISION_CHOICES, blank=True, null=True)
+    reason = models.TextField(blank=True , null=True)
     
     originator = models.CharField(max_length=100, blank=True, null=True)
     distributionManager = models.CharField(max_length=100, null=True, blank=True)
@@ -71,6 +77,21 @@ class LandAcquisition(models.Model):
     
     logistics = models.JSONField(default=list)  # List of strings
     totalEstimatedCost = models.CharField(max_length=100)
+    
+    review_status = models.CharField(
+        max_length=20, 
+        choices=REVIEW_STATUS_CHOICES, 
+        default='pending_review'
+    )
+    reviewed_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='reviewed_land_acquisitions'
+    )
+    review_date = models.DateTimeField(null=True, blank=True)
+    review_notes = models.TextField(blank=True, null=True)
     
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)

@@ -21,28 +21,26 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token["bio"] = user.profile.bio
         token["image"] = str(user.profile.image.url)
         token["verified"] = user.profile.verified
+        token["is_manager"] = user.is_manager
         return token
     
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password ])
-    
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    is_manager = serializers.BooleanField(required=False, default=False)  # Optional field for registration
+
     class Meta:
         model = User
-        fields = ["id", "email", "first_name", "last_name", "password"]
+        fields = ["id", "email", "first_name", "last_name", "password", "is_manager"]
         
-    def validate(self, attrs):
-        return attrs
-    
     def create(self, validated_data):
         user = User.objects.create(
             email = validated_data["email"],
             first_name = validated_data["first_name"],
-            last_name = validated_data["last_name"]
+            last_name = validated_data["last_name"],
+            is_manager = validated_data.get("is_manager", False)  # Set manager status
         )
-        
         user.set_password(validated_data["password"])
         user.save()
-        
         return user
     
 class ProfileSerializer(serializers.ModelSerializer):
@@ -53,10 +51,11 @@ class ProfileSerializer(serializers.ModelSerializer):
         
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
+    is_manager = serializers.BooleanField()
 
     class Meta:
         model = User
-        fields = ["id", "email", "first_name", "last_name", "profile"]
+        fields = ["id", "email", "first_name", "last_name", "is_manager", "profile"]
         
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)

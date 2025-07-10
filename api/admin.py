@@ -4,18 +4,16 @@ from django.utils.translation import gettext_lazy as _
 from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .models import User, Profile
 
-# Register your models here.
-
 class UserAdmin(BaseUserAdmin):
     filter_vertical = ("groups", "user_permissions")
     ordering = ["email"]
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = User
-    list_editable = ["is_active"]
-    list_display = ["email", "first_name", "last_name", "is_staff", "is_active"]
+    list_editable = ["is_active", "is_manager"]  # Added is_manager
+    list_display = ["email", "first_name", "last_name", "is_staff", "is_manager", "is_active"]  # Added is_manager
     list_display_links = ["email"]
-    list_filter = ["email",  "is_staff", "is_active"]
+    list_filter = ["email", "is_staff", "is_manager", "is_active"]  # Added is_manager
     search_fields = ["email", "first_name", "last_name"]
     fieldsets = (
         (
@@ -32,26 +30,35 @@ class UserAdmin(BaseUserAdmin):
         (
             _("Permissions and Groups"),
             {
-                "fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions"),
-                    "classes": ("wide", "extrapretty",)  
+                "fields": ("is_active", "is_staff", "is_manager", "is_superuser", "groups", "user_permissions"),  # Added is_manager
+                "classes": ("wide", "extrapretty",)  
             },
         ),
         (
             _("Important Dates"),
             {
-                "fields": ("last_login", "date_joined")  # Keep both but make them readonly
+                "fields": ("last_login", "date_joined")
             },
         ),
     )
     
-    readonly_fields = ("last_login", "date_joined")  # Add this line
-    # filter_horizontal = ("groups", "user_permissions")  # Keep this for better UI
+    readonly_fields = ("last_login", "date_joined")
+    
     add_fieldsets = (
-            (None, {
-                "classes": ("wide",),
-                "fields": ("email", "first_name", "last_name", "password1", "password2", "is_staff", "is_active"),
-            },),
-        )
+        (None, {
+            "classes": ("wide",),
+            "fields": (
+                "email", 
+                "first_name", 
+                "last_name", 
+                "password1", 
+                "password2", 
+                "is_staff", 
+                "is_manager",  # Added is_manager
+                "is_active"
+            ),
+        }),
+    )
     
     
 class ProfileAdmin(admin.ModelAdmin):
