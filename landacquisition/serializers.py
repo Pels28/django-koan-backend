@@ -1,7 +1,7 @@
-# serializers.py
 from rest_framework import serializers
 from .models import LandAcquisition
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -16,15 +16,10 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'first_name', 'last_name', 'full_name']
 
 class LandAcquisitionSerializer(serializers.ModelSerializer):
-    # Add review fields to serializer
-    review_status = serializers.CharField(read_only=True)
     user = UserSerializer(read_only=True)
     reviewed_by = UserSerializer(read_only=True, allow_null=True)
     review_date = serializers.DateTimeField(read_only=True)
-    review_notes = serializers.CharField(
-        allow_null=True, 
-        required=False
-    )
+    review_notes = serializers.CharField(allow_null=True, required=False)
     
     class Meta:
         model = LandAcquisition
@@ -35,12 +30,10 @@ class LandAcquisitionSerializer(serializers.ModelSerializer):
             'updated_at',
             'reviewed_by',
             'review_date',
-            'review_status',
             'user,'
         )
 
     def validate(self, data):
-        # Existing validation logic
         if data['propertyType'] == 'land' and not data.get('landSize'):
             raise serializers.ValidationError("Land size is required for land properties")
         
@@ -48,3 +41,13 @@ class LandAcquisitionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Station type is required for station properties")
         
         return data
+    
+    def create(self, validated_data):
+        user = self.context['request'].user
+        if user.is_manager:
+            validated_data.update({
+                'review_status': 'approved',
+                'reviewed_by': user,
+                'review_date': timezone.now()
+            })
+        return super().create(validated_data)

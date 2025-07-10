@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import WorkOrder
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -36,7 +37,7 @@ class WorkOrderSerializer(serializers.ModelSerializer):
             'updated_at', 
             'work_order_number',
             'is_approved',
-            'review_status',
+    
             'reviewed_by',
             'review_date',
             'user',
@@ -47,3 +48,18 @@ class WorkOrderSerializer(serializers.ModelSerializer):
         # if data['start_date'] > data['completion_date']:
         #     raise serializers.ValidationError("Completion date must be after start date")
         return data
+
+    def create(self, validated_data):
+        # Get the current user
+        user = self.context['request'].user
+        
+        # If user is manager, set review status to approved
+        if user.is_manager:
+            validated_data.update({
+                'review_status': 'approved',
+                'reviewed_by': user,
+                'review_date': timezone.now(),
+                'is_approved': True
+            })
+        
+        return super().create(validated_data)

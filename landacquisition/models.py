@@ -95,6 +95,15 @@ class LandAcquisition(models.Model):
     
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def save(self, *args, **kwargs):
+        # For new instances created by managers
+        if not self.id and self.user and self.user.is_manager:
+            self.review_status = 'approved'
+            self.reviewed_by = self.user
+            self.review_date = timezone.now()
+        
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Land Acquisition {self.id} - {self.propertyType}"

@@ -105,19 +105,20 @@ class WorkOrder(models.Model):
         ordering = ['-created_at']
         
     def save(self, *args, **kwargs):
-    # For new instances
+        # For new instances created by managers
+        if not self.id and self.user and self.user.is_manager:
+            self.review_status = 'approved'
+            self.reviewed_by = self.user
+            self.review_date = timezone.now()
+            self.is_approved = True
+        
+        # Generate work order number for new instances
         if not self.id:
-        # First save with a dummy value to get an ID
-            self.work_order_number = "TEMP"  # Temporary value to satisfy DB constraints
-            super().save(*args, **kwargs)
-        
-        # Generate formatted work order number
+            super().save(*args, **kwargs)  # First save to get ID
             self.work_order_number = f"W0-{str(self.id).zfill(3)}"
+            kwargs.pop('force_insert', None)  # Remove force_insert for update
         
-        # Save only the work_order_number field
-            super().save(update_fields=['work_order_number'])
-        else:
-            super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
         
 
         
